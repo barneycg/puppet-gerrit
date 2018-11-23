@@ -255,8 +255,16 @@ class gerrit (
 
   exec {
     'install_gerrit':
-      command => "java -jar ${source} init -d ${target}",
+      command => "java -jar ${source} init -d ${target} --no-auto-start --install-all-plugins",
       creates => "${target}/bin/gerrit.sh",
+      user    => $user,
+      path    => $::path,
+  } -> Exec['initial_index']
+
+  exec {
+    'initial_index':
+      command => "java -jar ${target}/bin/gerrit.war reindex",
+      creates => "${target}/index/gerrit_index.config",
       user    => $user,
       path    => $::path,
   }
