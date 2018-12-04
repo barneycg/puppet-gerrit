@@ -271,7 +271,7 @@ class gerrit (
 
   exec {
     'initial_index':
-      command => "java -jar ${target}/bin/gerrit.war reindex",
+      command => "java -jar ${target}/bin/gerrit.war reindex -d ${target}",
       creates => "${target}/index/gerrit_index.config",
       user    => $user,
       path    => $::path,
