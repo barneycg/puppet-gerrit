@@ -279,7 +279,7 @@ class gerrit (
 
   exec {
     'reload_gerrit':
-      command     => "java -jar ${target}/bin/gerrit.war init -d ${target}",
+      command     => "${target}/bin/gerrit.sh stop && java -jar ${target}/bin/gerrit.war init -d ${target}",
       refreshonly => true,
       user        => $user,
       path        => $::path,
