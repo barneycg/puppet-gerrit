@@ -283,10 +283,14 @@ class gerrit (
       refreshonly => true,
       user        => $user,
       path        => $::path,
-      notify      => Service['gerrit'],
   }
 
   if $manage_service {
+
+    Exec['reload_gerrit'] {
+      notify => Service['gerrit'],
+    }
+
     service {
       'gerrit':
         ensure    => running,
