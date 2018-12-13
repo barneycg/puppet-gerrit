@@ -220,7 +220,7 @@ class gerrit (
 ) inherits gerrit::params {
 
   if $core_plugins {
-    $core_plugin_list = core_plugins.map |$plugin| { "--install_plugin=${plugin}" }
+    $core_plugin_list = $core_plugins.map |$plugin| { "--install-plugin=${plugin}" }
     $core_plugin_string = join($core_plugin_list, ' ')
   } else {
      $core_plugin_string = ''
