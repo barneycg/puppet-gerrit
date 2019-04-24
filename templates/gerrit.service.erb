@@ -1,0 +1,10 @@
+[Unit]
+Description=Web based code review and project management for Git based projects
+After=syslog.target network.target remote-fs.target <%= @database_service_name -%>
+
+[Service]
+Type=forking
+ExecStart=/usr/local/gerrit/bin/gerrit.sh start
+
+[Install]
+WantedBy=multi-user.target

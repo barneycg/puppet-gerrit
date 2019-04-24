@@ -1,5 +1,5 @@
 # == Class: gerrit
-#
+t#
 # Full description of class gerrit here.
 #
 # === Parameters
@@ -196,6 +196,7 @@ class gerrit (
   $install_java_mysql       = true,
   $install_user             = true,
   $java_package             = $gerrit::params::java_package,
+  $database_service_name    = undef,
   $ldap_accountbase         = undef,
   $ldap_accountpattern      = undef,
   $ldap_accountemailaddress = undef,
@@ -291,14 +292,16 @@ class gerrit (
       notify => Service['gerrit'],
     }
 
+    systemd::unit_file {'gerrit.service':
+      content => template("${module_name}/gerrit.config.erb"), 
+    }
+
     service {
       'gerrit':
         ensure    => running,
-        start     => "${target}/bin/gerrit.sh start",
-        stop      => "${target}/bin/gerrit.sh stop",
+        enable    => true,
         hasstatus => false,
-        pattern   => 'GerritCodeReview',
-        provider  => 'base',
+        status    => 'pgrep -f GerritCodeReview',
         require   => Exec['install_gerrit'],
     }
   }
